@@ -29,9 +29,10 @@
                 </tr>
               </thead>
               <tbody>
+                <% SerialNumber = 1  %>
                 <% contacts.forEach((contact)=>{ %>
-                    <tr>
-                      <td>1</td>
+                <tr>
+                  <td><%= SerialNumber++ %></td>
                   <td><%= contact.FirstName %></td>
                   <td><%= contact.LastName %></td>
                   <td><%= contact.Email %></td>
