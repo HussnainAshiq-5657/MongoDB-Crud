@@ -4,8 +4,26 @@ const mongoose = require('mongoose');
 module.exports = {
   getAllContact: async (req, res) => {
     try {
-      const contacts = await ContactModel.find().sort({ createdAt: -1 });
-      return res.render('home', { contacts });
+      const { page = 1, limit = 3 } = req.query;
+      const options = {
+        page: parseInt(page),
+        limit: parseInt(limit),
+      };
+
+      const result = await ContactModel.paginate({}, options);
+
+      return res.render('home', {
+        totalDocs: result.totalDocs,
+        limit: result.limit,
+        totalPages: result.totalPages,
+        page: result.page,
+        counter: result.pagingCounter,
+        hasPrevPage: result.hasPrevPage,
+        hasNextPage: result.hasNextPage,
+        prevPage: result.prevPage,
+        nextPage: result.nextPage,
+        contacts:result.docs,
+      });
     } catch (error) {
       return res.render('500', { message: error.message });
     }
@@ -71,7 +89,7 @@ module.exports = {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       return res.render('404', { message: 'Invalid Id' });
     }
-   
+
     try {
       const updatedContact = await ContactModel.findByIdAndUpdate(
         req.params.id,

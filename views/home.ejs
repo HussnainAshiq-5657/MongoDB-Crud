@@ -29,7 +29,7 @@
                 </tr>
               </thead>
               <tbody>
-                <% SerialNumber = 1  %>
+                <% var SerialNumber = counter  %>
                 <% contacts.forEach((contact)=>{ %>
                 <tr>
                   <td><%= SerialNumber++ %></td>
@@ -63,6 +63,19 @@
                
               </tbody>
             </table>
+        
+          <ul class="pagination justify-content-center">
+          <%  let disabledClass = hasPrevPage ? "" : "disabled" %>
+            <li class="page-item <%= disabledClass %> "><a class="page-link" href="/?page=<%= prevPage %>">Previous</a></li>
+            <% for(let i = 1; i <= totalPages; i++){ 
+              let ActiveClass = page == i ? 'active' : ""
+              %>
+                <li class="page-item <%= ActiveClass %>"><a class="page-link" href="/?page=<%= i %>"><%= i %></a></li>
+              <% } %>
+            <%  let disabledClasses = hasNextPage ? "" : "disabled" %>
+           <li class="page-item <%= disabledClasses %> "><a class="page-link" href="/?page=<%= nextPage %>">Next</a></li>
+           </ul>
+        
           </div>
         </div>
       </div>
